@@ -26,7 +26,6 @@ io.on('connection', (socket) => {
 
     socket.on('chatMessage', (message) => {
         const username = users[socket.id];
-        console.log(username, message);
         io.emit('chatMessage', { user: username, text: message });
     });
 });
