@@ -1,0 +1,166 @@
+/* Reset some default styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  height: 100%;
+}
+
+/* App Container */
+#app-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Online User List */
+#user-list {
+  flex: 1;
+  padding: 20px;
+  background-color: #075e54;
+  color: #fff;
+  overflow-y: auto;
+}
+
+#user-list h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+#users {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#users li {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+}
+
+/* Chat Container */
+#chat-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styles */
+#header {
+  background-color: #128c7e;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+#user-list-toggle {
+  cursor: pointer;
+  font-size: 1.3rem;
+  margin-right: 10px;
+}
+
+/* Chat Messages styles */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column-reverse; /* To show messages from bottom to top */
+}
+
+/* Chat Messages styles */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column-reverse; /* Display messages from top to bottom with the latest message at the bottom */
+}
+
+/* Chat Message Bubble styles */
+.message-bubble {
+  max-width: 70%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word; /* To wrap long words and URLs */
+}
+
+/* Sender's chat bubble (right-aligned) */
+.sender-bubble {
+  background-color: #dcf8c6;
+  color: #000;
+  align-self: flex-end; /* To align to the right */
+}
+
+/* Receiver's chat bubble (left-aligned) */
+.receiver-bubble {
+  background-color: #ece5dd;
+  color: #000;
+  align-self: flex-start; /* To align to the left */
+}
+
+/* Clear floating elements */
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Message Input and Send Button styles */
+#message-input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+}
+
+#message-input {
+  flex: 5;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+#send-button {
+  flex: 1;
+  padding: 10px;
+  background-color: #128c7e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Media Query for Mobile */
+@media screen and (max-width: 768px) {
+  /* Adjust the layout for smaller screens */
+  #app-container {
+    height: 100%;
+  }
+
+  #user-list {
+    flex: 1;
+  }
+
+  #chat-container {
+    flex-grow: 2;
+  }
+}
