@@ -21,9 +21,14 @@ $(function () {
     // Send message when the send button is clicked
     $('#send-button').click(function () {
         const message = $('#message-input').val();
+
         if (message.trim() !== '') {
+
+            // Replace words with emojis
+            const emojiMessage = replaceWordWithEmoji(message)
+
             const timestamp = new Date().toLocaleTimeString(); // Get the current time
-            socket.emit('chatMessage', message, username, timestamp);
+            socket.emit('chatMessage', emojiMessage, username, timestamp);
             $('#message-input').val('');
         }
     });
@@ -57,3 +62,37 @@ $(function () {
         });
     });
 });
+
+const replaceWordWithEmoji = (message) => {
+    // Define a dictionary of word-to-emoji mappings
+    let wordToEmoji = {
+        "react": "⚛︎",
+        "woah": "😲",
+        "hey": "👋",
+        "lol": "😂",
+        "like": "❤",
+        "congratulations": "🎉",
+    };
+
+    // Split the input string into words
+    let words = message.split(" ");
+
+    // Initialize an empty array to store the processed words
+    let processedWords = [];
+
+    // Iterate through the words in the input string
+    for (let word of words) {
+        // Check if the word is in the word-to-emoji dictionary, and replace it with the emoji if found
+        if (word.toLowerCase() in wordToEmoji) {
+            let emoji = wordToEmoji[word.toLowerCase()];
+            processedWords.push(emoji);
+        } else {
+            processedWords.push(word);
+        }
+    }
+
+    // Join the processed words back into a string
+    let updatedMessage = processedWords.join(" ");
+
+    return updatedMessage
+}
