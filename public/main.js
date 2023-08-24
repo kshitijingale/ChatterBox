@@ -64,7 +64,9 @@ $(function () {
                 return;
             }
 
-            socket.emit('chatMessage', message, username);
+            const emojiMessage = replaceWordWithEmoji(message)
+
+            socket.emit('chatMessage', emojiMessage, username);
             $('#message-input').val('');
         }
     }
