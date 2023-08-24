@@ -14,7 +14,11 @@ ChatterBox is a real-time chat application built with Node.js, Socket.IO, and jQ
 
 - **Online User List**: See a list of online users on the left side of the chat interface.
 
-- **Message Timestamps**: Messages display the timestamp of when they were sent.
+- **Emoji Support**: Express yourself with a variety of emoji in your messages.
+
+- **Slash Commands**: Use slash commands to trigger specific actions or shortcuts for common tasks.
+
+
 
 ## Getting Started
 
