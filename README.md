@@ -4,8 +4,6 @@ ChatterBox is a real-time chat application built with Node.js, Socket.IO, and jQ
 
 ## Developer - Kshitij Ingale and ChatGPT-3.5
 
- **Time Taken** = 2 hours
-
 ## Features
 
 - **Real-Time Chat**: Chat with other users in real time, with messages instantly delivered to all participants.
