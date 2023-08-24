@@ -115,6 +115,14 @@ html {
   align-self: flex-start; /* To align to the left */
 }
 
+/* Slash bubble */
+.slash-bubble {
+  background-color: #ece5dd;
+  color: #000;
+  align-self: flex-start; /* To align to the left */
+  font-style: italic;
+}
+
 /* Clear floating elements */
 .clearfix::after {
   content: '';

@@ -12,28 +12,76 @@ $(function () {
             socket.emit('join', username);
             $('#join-container').hide();
             $('#chat-container').removeClass('hidden');
+            $('#message-input').focus()
         }
     }
 
     // Trigger the username prompt when the page loads
     promptForUsername();
 
-    // Send message when the send button is clicked
-    $('#send-button').click(function () {
+    // Function to send a message
+    function sendMessage() {
         const message = $('#message-input').val();
-
         if (message.trim() !== '') {
+            // Check if the message is a slash command
+            if (message.startsWith('/')) {
+                const parts = message.split(' ');
+                const command = parts[0].toLowerCase(); // Get the lowercase command name
 
-            // Replace words with emojis
-            const emojiMessage = replaceWordWithEmoji(message)
+                switch (command) {
+                    case '/help':
+                        // Display a help message in an alert dialog
+                        const helpMessage = 'Available commands:\n' +
+                            '/help - Display this help message\n' +
+                            '/random - Get a random number\n' +
+                            '/clear - Clear the chat history';
+                        alert(helpMessage);
+                        break;
 
-            const timestamp = new Date().toLocaleTimeString(); // Get the current time
-            socket.emit('chatMessage', emojiMessage, username, timestamp);
+                    case '/clear':
+                        // Clear the chat history
+                        messages.length = 0;
+                        renderMessages(); // Re-render the chat
+                        break;
+
+                    case '/random':
+                        const randomNum = Math.random()
+                        messages.push(`Here is your random number: ${randomNum}`)
+                        renderMessages(); // Re-render the chat
+                        break;
+
+                    // Add more commands as needed
+
+                    default:
+                        // Handle unknown command
+                        socket.emit('chatMessage', 'Unknown command. Type /help for a list of commands.', 'ChatterBox');
+                        break;
+                }
+
+                $('#message-input').val('');
+
+                // Prevent the command from being displayed as a regular message
+                return;
+            }
+
+            socket.emit('chatMessage', message, username);
             $('#message-input').val('');
+        }
+    }
+
+    // Send message when the send button is clicked
+    $('#send-button').click(sendMessage);
+
+    // Send message when Enter key is pressed in the message input field
+    $('#message-input').keypress(function (e) {
+        if (e.which === 13) {
+            // 13 is the key code for Enter
+            sendMessage();
         }
     });
 
     socket.on('chatMessage', (message) => {
+
         // Add the message to the array
         messages.push(message);
         // Render messages based on timestamps
@@ -45,6 +93,12 @@ $(function () {
         $('#messages').empty(); // Clear the message container
         // Append messages to the message container
         messages.forEach((message) => {
+            // Slash messages 
+            if (!message.user) {
+                const bubble = $('<div>').addClass('message-bubble').addClass('slash-bubble').text(message);
+                $('#messages').prepend(bubble);
+                return
+            }
             // Create a chat bubble with appropriate class based on sender or receiver
             const bubbleClass = message.user === username ? 'sender-bubble' : 'receiver-bubble';
             const bubble = $('<div>').addClass('message-bubble').addClass(bubbleClass).text(`${message.user}: ${message.text}`);
