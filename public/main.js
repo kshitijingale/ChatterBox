@@ -1,7 +1,9 @@
 $(function () {
     const socket = io();
     let username = null;
-    const messages = []; // Store messages with timestamps
+    const messages = [];
+    let userValues = {};
+
 
     // Function to prompt for username
     function promptForUsername() {
@@ -32,21 +34,72 @@ $(function () {
                     case '/help':
                         // Display a help message in an alert dialog
                         const helpMessage = 'Available commands:\n' +
-                            '/help - Display this help message\n' +
-                            '/random - Get a random number\n' +
-                            '/clear - Clear the chat history';
+                            '1.) /help - Display this help message\n' +
+                            '2.) /random - Get a random number\n' +
+                            '3.) /calc - `/calc 3+5` will post the result of the calculator.\n' +
+                            '4.) /rem - `/rem <name> <value>` Set a value and by the given name.   e.g. `/rem answer 42` or `/rem city Atlantis`. This value can then be recalled by `/rem <name>` e.g. `/rem answer` will post `42` and `/rem city` will post `Atlantis\n' +
+                            '5.) /clear - Clear the chat history';
                         alert(helpMessage);
+                        break;
+
+                    case '/rem':
+                        // Check if the command has two additional arguments
+                        if (parts.length === 3) {
+                            const name = parts[1];
+                            const value = parts[2];
+
+                            // Store the value in a dictionary
+                            userValues[name] = value;
+
+                            // Send a confirmation message
+                            messages.push(`Value "${value}" has been set for "${name}".`)
+                        } else if (parts.length === 2) {
+                            // Recall a value by name
+                            const name = parts[1];
+                            const value = userValues[name];
+
+                            if (value !== undefined) {
+                                // Send the recalled value
+                                messages.push(`Value for "${name}" is "${value}".`)
+                            } else {
+                                // Value not found
+                                messages.push(`Value for "${name}" not found.`)
+
+                            }
+                        } else {
+                            // Invalid command usage
+                            messages.push('Invalid /rem command. Usage: /rem <name> <value> or /rem <name>')
+                        }
+
+                        renderMessages(); // Re-render the chat
+                        break;
+
+                    case '/calc':
+                        if (parts.length === 2) {
+                            try {
+                                // Evaluate the expression using JavaScript's eval function
+                                const result = eval(parts[1])
+                                messages.push(`Result: ${result}`)
+
+                            } catch (error) {
+                                // Handle calculation error
+                                messages.push("Invalid expression")
+                            }
+                        } else {
+                            messages.push('Invalid /calc command. Usage: /calc <expression>')
+
+                        }
+                        renderMessages(); // Re-render the chat
+                        break;
+                    case '/random':
+                        const randomNum = Math.random()
+                        messages.push(`Here is your random number: ${randomNum}`)
+                        renderMessages(); // Re-render the chat
                         break;
 
                     case '/clear':
                         // Clear the chat history
                         messages.length = 0;
-                        renderMessages(); // Re-render the chat
-                        break;
-
-                    case '/random':
-                        const randomNum = Math.random()
-                        messages.push(`Here is your random number: ${randomNum}`)
                         renderMessages(); // Re-render the chat
                         break;
 
