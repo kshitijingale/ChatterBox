@@ -165,6 +165,7 @@ $(function () {
 
     // Update the user list when received from the server
     socket.on('updateUserList', (users) => {
+        $('#active-users').text(users.length);
         $('#users').empty();
         users.forEach((user) => {
             $('#users').append($('<li>').text(user));
