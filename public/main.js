@@ -206,3 +206,12 @@ const replaceWordWithEmoji = (message) => {
 
     return updatedMessage
 }
+
+// Toogle User list
+
+const userListBtn = document.querySelector("#user-list-toggle")
+const userList = document.querySelector("#user-list")
+
+userListBtn.addEventListener('click', () => {
+    userList.classList.toggle("show")
+})

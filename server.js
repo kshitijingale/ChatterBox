@@ -13,7 +13,7 @@ io.on('connection', (socket) => {
     socket.on('join', (username) => {
         users[socket.id] = username;
         io.emit('updateUserList', Object.values(users)); // Send the user list to all connected clients
-        console.log('User joined:', username);
+        // console.log('User joined:', username);
         socket.broadcast.emit('chatMessage', { user: 'System', text: `${username} has joined the chat.` });
     });
 
