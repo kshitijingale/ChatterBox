@@ -204,4 +204,8 @@ html {
   #user-list-toggle {
     display: block;
   }
+
+  .message-bubble {
+    max-width: 200px;
+  }
 }
